@@ -1,6 +1,7 @@
 import 'package:appointment/core/routing/routes.dart';
 import 'package:appointment/features/login/ui/screens/loginscreen.dart';
 import 'package:appointment/features/onboarding/onboarding.dart';
+import 'package:appointment/features/splashscreen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -8,6 +9,10 @@ class AppRouter {
 
     final arguments = settings.arguments;
     switch (settings.name) {
+      case Routes.SplashScreen:
+        return MaterialPageRoute(
+          builder: (_) =>  SplashScreen(),
+        );
       case Routes.onBoarding:
         return MaterialPageRoute(
           builder: (_) => const Onboarding(),
