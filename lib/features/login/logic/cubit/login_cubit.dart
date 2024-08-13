@@ -5,22 +5,21 @@ import 'package:appointment/features/login/logic/cubit/login_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
- 
 class LoginCubit extends Cubit<LoginState> {
-  final LoginRepo _loginRepo ;
+  final LoginRepo _loginRepo;
   LoginCubit(this._loginRepo) : super(const LoginState.initial());
-   
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController emailController= TextEditingController();
-    final formKey = GlobalKey<FormState>();
-void emitLoginState(LoginRequestBody loginResponseBody) async{
-  emit(const LoginState.loading());
-  final response =await _loginRepo.login(loginResponseBody);
- response.when(success: ( loginResponse){
-emit(LoginState.success(loginResponse));
- }, failure: (error){
-  emit(LoginState.error(error: error.apiErrorModel.message ?? ""));
- });
 
-}
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  void emitLoginState() async {
+    emit(const LoginState.loading());
+    final response = await _loginRepo.login(LoginRequestBody(
+        email: emailController.text, password: passwordController.text));
+    response.when(success: (loginResponse) {
+      emit(LoginState.success(loginResponse));
+    }, failure: (error) {
+      emit(LoginState.error(error: error.apiErrorModel.message ?? ""));
+    });
+  }
 }

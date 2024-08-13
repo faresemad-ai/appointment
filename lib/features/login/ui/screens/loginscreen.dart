@@ -1,7 +1,5 @@
-import 'package:appointment/core/theming/colors.dart';
 import 'package:appointment/core/theming/styles.dart';
 import 'package:appointment/core/widgets/app_text_button.dart';
-import 'package:appointment/core/widgets/app_textform_field.dart';
 import 'package:appointment/features/login/data/models/login_request_body.dart';
 import 'package:appointment/features/login/logic/cubit/login_cubit.dart';
 import 'package:appointment/features/login/ui/widgets/alreadyhaveanaccount.dart';
@@ -12,15 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final formkey = GlobalKey<FormState>();
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,8 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
 void ValidateThenDoLogin(BuildContext context) {
   if (context.read<LoginCubit>().formKey.currentState!.validate()) {
-    context.read<LoginCubit>().emitLoginState(LoginRequestBody(
-        email: context.read<LoginCubit>().emailController.text,
-        password: context.read<LoginCubit>().passwordController.text));
+    context.read<LoginCubit>().emitLoginState();
   }
 }

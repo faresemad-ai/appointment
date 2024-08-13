@@ -1,3 +1,4 @@
+import 'package:appointment/core/helpers/app_rejex.dart';
 import 'package:appointment/core/widgets/app_textform_field.dart';
 import 'package:appointment/features/login/logic/cubit/login_cubit.dart';
 import 'package:appointment/features/login/ui/widgets/password_validations.dart';
@@ -25,7 +26,22 @@ class _EmailandpasswordState extends State<Emailandpassword> {
   @override
   void initState() {
     passwordController = context.read<LoginCubit>().passwordController;
+    SetUpFunctionControllerListener();
     super.initState();
+  }
+
+
+  void  SetUpFunctionControllerListener(){
+    passwordController.addListener(( ){
+      setState(() {
+        hasLowercase = AppRegex.hasLowerCase(passwordController.text);
+         hasUppercase = AppRegex.hasUpperCase(passwordController.text);
+        hasSpecialCharacters =
+            AppRegex.hasSpecialCharacter(passwordController.text);
+        hasNumber = AppRegex.hasNumber(passwordController.text);
+        hasMinLength = AppRegex.hasMinLength(passwordController.text);
+      });
+    });
   }
 
   @override
@@ -37,7 +53,7 @@ class _EmailandpasswordState extends State<Emailandpassword> {
           AppTextFormField(
             hintText: 'email',
             validator: (String? v) {
-              if (v == null || v.isEmpty) {
+              if (v == null || v.isEmpty || !AppRegex.isEmailValid(v)) {
                 return "please enter an email";
               }
             },
@@ -77,5 +93,10 @@ class _EmailandpasswordState extends State<Emailandpassword> {
         ],
       ),
     );
+  }
+  @override
+  void dispose() {
+passwordController.dispose();
+    super.dispose();
   }
 }
